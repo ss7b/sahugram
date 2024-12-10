@@ -12,17 +12,13 @@
             {{-- Top --}}
             <div class="border-b-2">
                 <div class="flex items-center p-5">
-                    <img src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->owner->username }}"
+                    <img src="{{$post->owner->image}}" alt="{{ $post->owner->username }}"
                          class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
                     <div class="grow">
                         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                     </div>
-                    {{-- @if ($post->owner->id === auth()->id()) --}}
-
-                    @can('update', $post)
-                        <button onclick="Livewire.emit('openModal', 'edit-post-modal', {{ json_encode([$post->id]) }})">
-                            <i class='bx bx-message-square-edit text-xl'></i></button>
-                        {{-- <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a> --}}
+                    @if ($post->owner->id === auth()->id())
+                        <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a>
                         <form action="/p/{{ $post->slug }}/delete" method="POST">
                             @csrf
                             @method('DELETE')
@@ -30,18 +26,17 @@
                                 <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'></i>
                             </button>
                         </form>
-                    @endcan
+                    @endif
+                    
 
-                    @cannot('update', $post)
-                        <livewire:follow-button :userId="$post->owner->id" classes="text-blue-500" />
-                    @endcannot
+                    
                 </div>
             </div>
 
             {{-- Middle --}}
             <div class="flex flex-col grow overflow-y-auto">
                 <div class="flex items-start p-5">
-                    <img src="{{ asset('storage/'.$post->image) }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
+                    <img src="{{ $post->owner->image }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
                     <div>
                         <a href="{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                         {{ $post->description }}
