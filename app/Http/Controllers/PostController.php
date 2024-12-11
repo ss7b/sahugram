@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -15,8 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        
-}
+        $posts = Post::all();
+        $suggested_users = auth()->user()->suggested_users();
+        return view('posts.index',compact(['posts', 'suggested_users']));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -92,5 +95,12 @@ class PostController extends Controller
         $post->delete();
 
         return redirect(url('home'));
+    }
+
+    public function explore(){
+        $posts = Post::whereRelation('owner','brivate_acount','=',0)
+                ->whereNot('user_id')
+                ->simplePaginate(12);
+        return view('posts.explore',compact('posts'));
     }
 }
