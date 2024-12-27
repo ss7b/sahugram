@@ -11,9 +11,13 @@
         </div>
 
         <div class="p-3 flex flex-row">
-            <livewire:like :post="$post" />
-            <a class="grow" href="/p/{{ $post->slug }}"><i
-                    class="bx bx-comment text-3xl hover:text-gray-400 cursor-pointer ltr:mr-3 rtl:ml-3"></i></a>
+            {{-- <livewire:like :post="$post" /> --}}
+            <a class="grow" href="/p/{{ $post->slug }}/like"><i
+                @if ($post->liked(auth()->user()))
+                    class="bx bxs-heart text-red-600 text-3xl cursor-pointer ltr:mr-3 rtl:ml-3"></i></a>
+                @else
+                    class="bx bx-heart text-3xl hover:text-gray-400 cursor-pointer ltr:mr-3 rtl:ml-3"></i></a>
+                @endif
         </div>
 
         <div class="p-3">

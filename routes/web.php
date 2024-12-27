@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserControlle;
@@ -35,7 +36,7 @@ Route::controller(PostController::class)->middleware('auth')->group(function () 
     Route::delete('/p/{post:slug}/delete',  'destroy')->name('delete_post');
 });
 
-
+Route::get('/p/{post:slug}/like', LikeController::class)->middleware('auth');
 
 
 
