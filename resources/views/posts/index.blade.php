@@ -41,9 +41,9 @@
                         <div class="flex flex-col grow">
                             <a href="/{{ $suggested_user->username }}" class="font-bold">
                                 {{ $suggested_user->username }}
-                                {{-- @if (auth()->user()->is_follower($suggested_user))
+                                @if (auth()->user()->is_follower($suggested_user))
                                     <span class="text-xs text-gray-500">Follower</span>
-                                @endif --}}
+                                @endif
                             </a>
                             <div class="text-gray-500 text-sm">{{ $suggested_user->name }}</div>
                         </div>
@@ -52,7 +52,11 @@
                         @else
                             <livewire:follow-button :userId="$suggested_user->id" classes="text-blue-500" />
                         @endif --}}
-
+                        @if (auth()->user()->is_pending($suggested_user))
+                            <span class="text-gray-500 font-bold px-2">{{ __('Pending') }}</span>
+                        @else
+                            <a href="/{{ $suggested_user->username }}/follow" class="text-blue-500 font-bold">{{__('Follow')}}</a>
+                        @endif
                     </li>
                 @endforeach
             </ul>

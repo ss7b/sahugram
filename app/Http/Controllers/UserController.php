@@ -40,4 +40,13 @@ class UserController extends Controller
         session()->flash('success', __('You profile has been updated successfully!'));
         return redirect()->route('user_profile', $user);
     }
+
+    public function follow(User $user){
+        auth()->user()->follow($user);
+        return back();
+    }
+    public function unfollow(User $user){
+        auth()->user()->unfollow($user);
+        return back();
+    }
 }

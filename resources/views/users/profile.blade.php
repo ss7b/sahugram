@@ -72,6 +72,7 @@
                               </ul>
                           </div>
                       @endif
+                      
                   </div>
               </a>
           @endforeach
