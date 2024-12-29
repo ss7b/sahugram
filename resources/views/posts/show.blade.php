@@ -17,7 +17,7 @@
                     <div class="grow">
                         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                     </div>
-                    @if ($post->owner->id === auth()->id())
+                    @can ('update',$post)
                         <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a>
                         <form action="/p/{{ $post->slug }}/delete" method="POST">
                             @csrf
@@ -26,12 +26,10 @@
                                 <i class='bx bx-message-square-x ltr:ml-2 rtl:mr-2 text-xl text-red-600'></i>
                             </button>
                         </form>
-                    @elseif(auth()->user()->is_following($post->owner))
-                        <a href="/{{$post->owner->username}}/unfollow" class="w-30 text-blue-400 text-sm font-bold px-3 text-center">{{__('unfollow')}}</a>
-                    @else
-                    <a href="/{{$post->owner->username}}/follow" class="w-30 text-blue-400 text-sm font-bold px-3 text-center">{{__('follow')}}</a>
-                    @endif
-                    
+                    @endcan
+                    @cannot('update', $post)
+                        <livewire:follow :post="$post" :userId="$post->owner->id" classes="text-blue-500"/>
+                    @endcannot
 
                     
                 </div>
@@ -81,10 +79,10 @@
                 <form action="/p/{{ $post->slug }}/comment" method="POST">
                     @csrf
                     <div class="flex flex-row">
-            <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment...') }}"
-                      class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0"></textarea>
+                        <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment...') }}"
+                        class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0"></textarea>
                         <button type="submit"
-                                class="ltr:ml-5 rtl:mr-5 border-none bg-white text-blue-500">{{ __('Post') }}</button>
+                        class="ltr:ml-5 rtl:mr-5 border-none bg-white text-blue-500">{{ __('Post') }}</button>
                     </div>
                 </form>
             </div>
