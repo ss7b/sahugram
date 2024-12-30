@@ -20,12 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 require __DIR__.'/auth.php';
+Route::get('/explore', [PostController::class,'explore'])->name('explore');
 
 Route::get('/{user:username}',[UserController::class, 'index'])->name('user_profile');
 Route::get('/{user:username}/edit',[UserController::class, 'edit'])->name('edit_profile')->middleware('auth');
 Route::patch('/{user:username}/update',[UserController::class, 'update'])->name('update_profile')->middleware('auth');
 
-Route::get('/explore', [PostController::class,'explore'])->name('explore');
+
 Route::controller(PostController::class)->middleware('auth')->group(function ()  {
     Route::get('/', 'index')->name('home_page');
     Route::get('/p/create',  'create')->name('create_post');

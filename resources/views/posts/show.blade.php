@@ -3,7 +3,7 @@
 
         {{-- Left Side --}}
         <div class="flex h-full items-center overflow-hidden bg-black md:w-7/12">
-            <img class="h-auto w-full" src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->description }}">
+            <img class="h-auto w-full" src="/{{ $post->image }}" alt="{{ $post->description }}">
         </div>
 
         {{-- Right Side --}}
@@ -12,13 +12,17 @@
             {{-- Top --}}
             <div class="border-b-2">
                 <div class="flex items-center p-5">
-                    <img src="{{$post->owner->image}}" alt="{{ $post->owner->username }}"
+                    <img src="{{ $post->owner->image }}" alt="{{ $post->owner->username }}"
                          class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
                     <div class="grow">
                         <a href="/{{ $post->owner->username }}" class="font-bold">{{ $post->owner->username }}</a>
                     </div>
-                    @can ('update',$post)
-                        <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a>
+                    {{-- @if ($post->owner->id === auth()->id()) --}}
+
+                    @can('update', $post)
+                        <button onclick="Livewire.emit('openModal', 'edit-post-modal', {{ json_encode([$post->id]) }})">
+                            <i class='bx bx-message-square-edit text-xl'></i></button>
+                        {{-- <a href="/p/{{ $post->slug }}/edit"><i class='bx bx-message-square-edit text-xl'></i></a> --}}
                         <form action="/p/{{ $post->slug }}/delete" method="POST">
                             @csrf
                             @method('DELETE')
@@ -27,11 +31,10 @@
                             </button>
                         </form>
                     @endcan
-                    @cannot('update', $post)
-                        <livewire:follow-button  :post="$post" :userId="$post->owner->id" classes="text-blue-500"/>
-                    @endcannot
 
-                    
+                    @cannot('update', $post)
+                        <livewire:follow-button :userId="$post->owner->id" classes="text-blue-500" />
+                    @endcannot
                 </div>
             </div>
 
@@ -79,10 +82,10 @@
                 <form action="/p/{{ $post->slug }}/comment" method="POST">
                     @csrf
                     <div class="flex flex-row">
-                        <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment...') }}"
-                        class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0"></textarea>
+            <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment...') }}"
+                      class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0"></textarea>
                         <button type="submit"
-                        class="ltr:ml-5 rtl:mr-5 border-none bg-white text-blue-500">{{ __('Post') }}</button>
+                                class="ltr:ml-5 rtl:mr-5 border-none bg-white text-blue-500">{{ __('Post') }}</button>
                     </div>
                 </form>
             </div>

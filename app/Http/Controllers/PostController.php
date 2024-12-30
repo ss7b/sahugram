@@ -106,6 +106,7 @@ class PostController extends Controller
         $posts = Post::whereRelation('owner','brivate_acount','=',0)
                 ->whereNot('user_id')
                 ->simplePaginate(12);
+
         return view('posts.explore',compact('posts'));
     }
 }
