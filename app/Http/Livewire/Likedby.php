@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 
 class Likedby extends Component
 {
     public $post;
+
     protected $listeners = ['likeToggled' => 'getLikesProperty'];
-    public function getLikesProperty()  {
+
+    public function getLikesProperty()
+    {
         return $this->post->likes()->count();
     }
 
-    public function getFirstusernameProperty()  {
+    public function getFirstusernameProperty()
+    {
         return $this->post->likes()->first()->username;
     }
     public function render()

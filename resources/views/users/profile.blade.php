@@ -21,7 +21,7 @@
                         {{ __('Edit Profile') }}
                     </a>
                 @else
-                    <livewire:follow :userId="$user->id" classes="bg-blue-400 text-white"  />
+                    <livewire:follow-button :userId="$user->id" classes="bg-blue-400 text-white"  />
                 @endif
 
             @endauth
@@ -49,8 +49,8 @@
                     <span class='text-neutral-500 md:text-black'>
             {{ $user->posts->count() > 1 ? __('posts') : __('post') }}</span>
                 </li>
-                    {{-- <livewire:followers :userId="$user->id" />
-                    <livewire:following :userId="$user->id" /> --}}
+                    {{-- <livewire:followers :userId="$user->id" /> --}}
+                    <livewire:following :userId="$user->id" />
             </ul>
         </div>
     </div>
