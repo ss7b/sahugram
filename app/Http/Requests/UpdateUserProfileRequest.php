@@ -32,7 +32,7 @@ class UpdateUserProfileRequest extends FormRequest
             'name' => 'required',
             'email' => ['required', 'email'],
             'password' => ['min:8', 'nullable', 'confirmed'],
-            // 'lang' => 'required'
+            'lang' => 'required'
         ];
     }
 }

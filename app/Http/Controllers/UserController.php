@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $user->update($data->toArray());
 
-        session()->flash('success', __('You profile has been updated successfully!'));
+        session()->flash('success', __('You profile has been updated successfully!', [], $data['lang']));
         return redirect()->route('user_profile', $user);
     }
 

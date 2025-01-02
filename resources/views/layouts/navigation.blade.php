@@ -12,7 +12,7 @@
             </div>
             <!-- Search -->
             <div class="hidden sm:flex sm:items-center">
-                {{-- <livewire:search /> --}}
+                <livewire:search />
             </div>
 
 
